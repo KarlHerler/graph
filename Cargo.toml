@@ -1,0 +1,5 @@
+[package]
+
+name = "graph"
+version = "0.0.1"
+authors = ["Karl Herler <hi@karlherler.com>"]
