@@ -20,13 +20,13 @@ impl Graph {
   ///    negative numbers.
   ///
   /// ## Example
-  /// ```rust
+  /// ```ignore
   ///  let rawgraph = vec![vec![Some(0), Some(20), Some(80), Some(50),     None,     None],
   ///                      vec![   None,  Some(0),     None,     None,     None,     None],
   ///                      vec![   None,     None,  Some(0),     None,     None,     None],
   ///                      vec![   None,     None,     None,  Some(0), Some(50),     None],
   ///                      vec![   None,     None, Some(20),     None,  Some(0), Some(50)],
-  ///                      vec![   None,     None,     None,     None,     None,  Some(0)],
+  ///                      vec![   None,     None,     None,     None,     None,  Some(0)]];
   /// let g = Graph::new(rawgraph);
   /// ```
   pub fn new(input: Vec<Vec<Option<i32>>>) -> Graph { Graph { graph: input } }
