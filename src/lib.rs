@@ -58,6 +58,10 @@ impl Graph {
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
   /// or `None` if there is no path.
   pub fn breadth_first_search(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
+    return self.inner_search(start, target, true)
+  }
+
+  fn inner_search(&self, start: usize, target: usize, bfs: bool) -> Option<VecDeque<usize>>  {
     let mut q: VecDeque<usize> = VecDeque::new();
     let mut discovered: HashSet<usize> = HashSet::new();
     let mut prev: Vec<usize> = Vec::with_capacity(self.graph.len());
@@ -68,7 +72,12 @@ impl Graph {
     discovered.insert(start);
 
     while !q.is_empty() {
-      let v = q.pop_front();
+      let mut v: Option<usize>;
+      if bfs {
+        v = q.pop_front()
+      } else {
+        v = q.pop_back();
+      }
       match v {
         None => {}, // q is empty
         Some(v) => { // we are working on a new layer, branch the queue?
