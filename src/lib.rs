@@ -3,11 +3,33 @@ use std::collections::HashSet;
 
 /// A graph is represeted by as a weighted
 /// [Adjenceny matrix](http://en.wikipedia.org/wiki/Adjacency_matrix)
-struct Graph {
+pub struct Graph {
+  /// The underlaying graph represented here with weights as an i32 (should
+  /// probably be generic) the graph is represented as an
+  /// [Adjenceny matrix](http://en.wikipedia.org/wiki/Adjacency_matrix) of
+  /// Optionals, where None indicates that there doesn't exist a vertex and
+  /// Some<i32> indicates that There is a vertex of weight i32.
   graph: Vec<Vec<Option<i32>>>
 }
 impl Graph {
-  fn new(input: Vec<Vec<Option<i32>>>) -> Graph { Graph { graph: input } }
+  /// `new` allows for initializing the graph struct with a given adjecency matrix
+  ///
+  /// ## Arguments
+  /// * `input` - an adjecency matrix in made out of a two-dimensional `Vec` of
+  ///    weights. Weights are represented as `i32`:s and can thus be positive or
+  ///    negative numbers.
+  ///
+  /// ## Example
+  /// ```rust
+  ///  let rawgraph = vec![vec![Some(0), Some(20), Some(80), Some(50),     None,     None],
+  ///                      vec![   None,  Some(0),     None,     None,     None,     None],
+  ///                      vec![   None,     None,  Some(0),     None,     None,     None],
+  ///                      vec![   None,     None,     None,  Some(0), Some(50),     None],
+  ///                      vec![   None,     None, Some(20),     None,  Some(0), Some(50)],
+  ///                      vec![   None,     None,     None,     None,     None,  Some(0)],
+  /// let g = Graph::new(rawgraph);
+  /// ```
+  pub fn new(input: Vec<Vec<Option<i32>>>) -> Graph { Graph { graph: input } }
 
   /*
   1  procedure BFS(G,v) is
@@ -21,7 +43,21 @@ impl Graph {
   9                 Q.push(w)
   10                label w as discovered
   */
-  fn bfs(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
+  /// `bfs` implements breath first search from `start` to the `target` and
+  /// returns the path found as a `VecDeque<usize>` of nodes. This is an optional
+  /// type as there might not be a path.
+  ///
+  /// **NOTE** as this is breath first search this search ignores any assigned
+  /// weight to nodes.
+  ///
+  /// ## Arguments
+  /// * `start`  - an `usize` designating the start node, or row in the adjecency matrix
+  /// * `target` - an `usize` designating the target node, or row in the adjecency matrix
+  ///
+  /// ## Returns
+  /// Either the found path between start and target as a `VecDeque` of `usize`:s
+  /// or `None` if there is no path.
+  pub fn bfs(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
     let mut q: VecDeque<usize> = VecDeque::new();
     let mut discovered: HashSet<usize> = HashSet::new();
     let mut prev: Vec<usize> = Vec::with_capacity(self.graph.len());
