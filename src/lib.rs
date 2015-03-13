@@ -66,27 +66,22 @@ impl Graph {
 
     q.push_back(start);
     discovered.insert(start);
-    //println!("q size: {} and is empty: {}", q.len(), q.is_empty());
 
     while !q.is_empty() {
       let v = q.pop_front();
       match v {
         None => {}, // q is empty
         Some(v) => { // we are working on a new layer, branch the queue?
-         // println!("Checking out: {}", v);
           if !discovered.contains(&v) {
-            //println!("{:?} does not contain: {}", discovered, v);
             discovered.insert(v);
           }
           if v == target {
-            //println!("Target located: q:{:?}, disco: {:?}, prev: {:?}", q, discovered, prev);
             pathfound = true;
           }
           for i in (0..self.graph[v].len()) {
             match self.graph[v][i] {
               None => {}, // no vertex between v and i
               Some(_) => {
-                //println!("  A vertex between: {} and {} exists. q: {:?}, disco: {:?}", v, i, q, discovered);
                 if !discovered.contains(&i) {
                   q.push_back(i);
                   prev[i]=v; //track prev (v) on i
@@ -100,7 +95,7 @@ impl Graph {
     if pathfound {
       let mut path: VecDeque<usize> = VecDeque::new();
       let mut curr = target;
-      // backtrack over the prev array to construc the path
+      // backtrack over the prev array to construct the path
       while curr != start {
         path.push_front(curr);
         curr = prev[curr];
@@ -126,7 +121,6 @@ fn breadth_first_search_test() {
   let target: usize = 6;
   let g = Graph::new(testgraph);
   let res = g.breadth_first_search(start, target);
-  //assert_eq!(res.is_none(), false);
   match res {
     None => {
       println!("bfs search returned None");
@@ -136,7 +130,6 @@ fn breadth_first_search_test() {
       println!("Bfs returned something: {:?}", result);
       assert_eq!(result[result.len()-1], target);
       assert_eq!(result[0], start);
-      //assert!(false);
     }
   }
 }
