@@ -43,11 +43,11 @@ impl Graph {
   9                 Q.push(w)
   10                label w as discovered
   */
-  /// `bfs` implements breath first search from `start` to the `target` and
+  /// `bfs` implements breadth first search from `start` to the `target` and
   /// returns the path found as a `VecDeque<usize>` of nodes. This is an optional
   /// type as there might not be a path.
   ///
-  /// **NOTE** as this is breath first search this search ignores any assigned
+  /// **NOTE** as this is breadth first search this search ignores any assigned
   /// weight to nodes.
   ///
   /// ## Arguments
@@ -57,7 +57,7 @@ impl Graph {
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
   /// or `None` if there is no path.
-  pub fn bfs(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
+  pub fn breadth_first_search(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
     let mut q: VecDeque<usize> = VecDeque::new();
     let mut discovered: HashSet<usize> = HashSet::new();
     let mut prev: Vec<usize> = Vec::with_capacity(self.graph.len());
@@ -125,7 +125,7 @@ fn bfs_test() {
   let start: usize = 0;
   let target: usize = 6;
   let g = Graph::new(testgraph);
-  let res = g.bfs(start, target);
+  let res = g.breadth_first_search(start, target);
   //assert_eq!(res.is_none(), false);
   match res {
     None => {
@@ -153,7 +153,7 @@ fn bfs_test_no_valid_path() {
   let start: usize = 0;
   let target: usize = 5; // There is no valid path between 0 and 5
   let g = Graph::new(testgraph);
-  let res = g.bfs(start, target);
+  let res = g.breadth_first_search(start, target);
 
   // The expected return value is None
   match res {
