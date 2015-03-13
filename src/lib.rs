@@ -43,9 +43,9 @@ impl Graph {
   9                 Q.push(w)
   10                label w as discovered
   */
-  /// `bfs` implements breadth first search from `start` to the `target` and
-  /// returns the path found as a `VecDeque<usize>` of nodes. This is an optional
-  /// type as there might not be a path.
+  /// `breadth_first_search` implements breadth first search from `start` to the
+  /// `target` and returns the path found as a `VecDeque<usize>` of nodes. This
+  /// is an optional type as there might not be a path.
   ///
   /// **NOTE** as this is breadth first search this search ignores any assigned
   /// weight to nodes.
@@ -114,7 +114,7 @@ impl Graph {
 
 
 #[test]
-fn bfs_test() {
+fn breadth_first_search_test() {
   let testgraph = vec![vec![Some(0), Some(20), Some(80), Some(50),     None,     None, None],
                        vec![   None,  Some(0),     None,     None,     None,     None, None],
                        vec![   None,     None,  Some(0),     None,     None,     None,  Some(50)],
@@ -142,7 +142,7 @@ fn bfs_test() {
 }
 
 #[test]
-fn bfs_test_no_valid_path() {
+fn breadth_first_search_test_no_valid_path() {
   let testgraph = vec![vec![Some(0), Some(20), Some(80), Some(50),     None,     None, None],
                        vec![   None,  Some(0),     None,     None,     None,     None, None],
                        vec![   None,     None,  Some(0),     None,     None,     None,  Some(50)],
