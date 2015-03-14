@@ -1,9 +1,9 @@
-# Graph
+# Graph search
 
-_Graph_ is a simple graph library for the rust programming language. Graph can be
-used for basic representation and manipulation of
-[graph structures](http://en.wikipedia.org/wiki/Graph_%28mathematics%29). Currently the
-featureset is limited.
+`graph-search` is a simple graph library for the rust programming language.
+`graph-search` can be used for basic representation and manipulation of
+[graph structures](http://en.wikipedia.org/wiki/Graph_(abstract_data_type)). At the
+moment featureset is quite limited.
 
 ## Organization
  - **README.md**  - The document you are currently reading.
