@@ -31,18 +31,6 @@ impl Graph {
   /// ```
   pub fn new(input: Vec<Vec<Option<i32>>>) -> Graph { Graph { graph: input } }
 
-  /*
-  1  procedure BFS(G,v) is
-  2      let Q be a queue
-  3      Q.push(v)
-  4      label v as discovered
-  5      while Q is not empty
-  6         v ← Q.pop()
-  7         for all edges from v to w in G.adjacentEdges(v) do
-  8             if w is not labeled as discovered
-  9                 Q.push(w)
-  10                label w as discovered
-  */
   /// `breadth_first_search` implements breadth first search from `start` to the
   /// `target` and returns the path found as a `VecDeque<usize>` of nodes. This
   /// is an optional type as there might not be a path.
@@ -98,13 +86,9 @@ impl Graph {
       }
       match v {
         None => {}, // q is empty
-        Some(v) => { // we are working on a new layer, branch the queue?
-          if !discovered.contains(&v) {
-            discovered.insert(v);
-          }
-          if v == target {
-            pathfound = true;
-          }
+        Some(v) => { // we are working on a new layer
+          if !discovered.contains(&v) { discovered.insert(v); }
+          if v == target { pathfound = true; }
           for i in (0..self.graph[v].len()) {
             match self.graph[v][i] {
               None => {}, // no vertex between v and i
