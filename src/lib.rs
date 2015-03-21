@@ -116,6 +116,17 @@ impl Graph {
     }
     return None
   }
+
+  pub fn cost_of_path(&self, path: VecDeque<usize>) -> i32 {
+    let mut cost = 0;
+    for i in (0..path.len()-1) {
+      match self.graph[path[i]][path[i+1]] {
+        None => {},
+        Some(c) => { cost = cost + c; }
+      }
+    }
+    return cost
+  }
 }
 
 
