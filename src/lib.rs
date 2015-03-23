@@ -226,11 +226,11 @@ impl Graph {
 
 #[test]
 fn breadth_first_search_test() {
-  let testgraph = vec![vec![Some(0), Some(20), Some(80), Some(50),     None,     None, None],
+  let testgraph = vec![vec![Some(0), Some(20), Some(50), Some(10),     None,     None, None],
                        vec![   None,  Some(0),     None,     None,     None,     None, None],
                        vec![   None,     None,  Some(0),     None,     None,     None,  Some(50)],
-                       vec![   None,     None,     None,  Some(0), Some(50),     None, None],
-                       vec![   None,     None, Some(20),     None,  Some(0), Some(50),  Some(40)],
+                       vec![   None,     None,     None,  Some(0), Some(20),     None, None],
+                       vec![   None,     None, Some(20),     None,  Some(0), Some(50),  Some(30)],
                        vec![   None,     None,     None,     None,     None,  Some(0), None],
                        vec![   None,     None,     None,     None,     None,     None, Some(0)]];
   let start: usize = 0;
@@ -281,11 +281,11 @@ fn breadth_first_search_test_no_valid_path() {
 
 #[test]
 fn depth_first_search_test() {
-  let testgraph = vec![vec![Some(0), Some(20), Some(80), Some(50),     None,     None, None],
+  let testgraph = vec![vec![Some(0), Some(20), Some(50), Some(10),     None,     None, None],
                        vec![   None,  Some(0),     None,     None,     None,     None, None],
                        vec![   None,     None,  Some(0),     None,     None,     None,  Some(50)],
-                       vec![   None,     None,     None,  Some(0), Some(50),     None, None],
-                       vec![   None,     None, Some(20),     None,  Some(0), Some(50),  Some(40)],
+                       vec![   None,     None,     None,  Some(0), Some(20),     None, None],
+                       vec![   None,     None, Some(20),     None,  Some(0), Some(50),  Some(30)],
                        vec![   None,     None,     None,     None,     None,  Some(0), None],
                        vec![   None,     None,     None,     None,     None,     None, Some(0)]];
   let start: usize = 0;
