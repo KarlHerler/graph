@@ -130,17 +130,7 @@ impl Graph {
         }
       }
     }
-    if pathfound {
-      let mut path: VecDeque<usize> = VecDeque::new();
-      let mut curr = target;
-      // backtrack over the prev array to construct the path
-      while curr != start {
-        path.push_front(curr);
-        curr = prev[curr];
-      }
-      path.push_front(start);
-      return Some(path)
-    }
+    if pathfound { return Some(self.backtrack(prev, start, target)) }
     return None
   }
 
@@ -187,7 +177,11 @@ impl Graph {
         }
       }
     }
-    if pathfound {
+    if pathfound { return Some(self.backtrack(prev, start, target)) }
+    return None
+  }
+
+  fn backtrack(&self, prev: Vec<usize>, start: usize, target: usize) -> VecDeque<usize> {
       let mut path: VecDeque<usize> = VecDeque::new();
       let mut curr = target;
       // backtrack over the prev array to construct the path
@@ -196,9 +190,7 @@ impl Graph {
         curr = prev[curr];
       }
       path.push_front(start);
-      return Some(path)
-    }
-    return None
+      return path
   }
 
   /// `cost_of_path` takes a path returned from any of the search functions and
