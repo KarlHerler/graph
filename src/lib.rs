@@ -117,6 +117,14 @@ impl Graph {
     return None
   }
 
+  /// `cost_of_path` takes a path returned from any of the search functions and
+  /// calculates the cost of the path.
+  ///
+  /// ## Arguments
+  /// * `path` - a `VecDeque<usize>` representing a path through the graph
+  ///
+  /// ## Returns
+  /// The cost of traversing said path represented as an `i32`
   pub fn cost_of_path(&self, path: VecDeque<usize>) -> i32 {
     let mut cost = 0;
     for i in (0..path.len()-1) {
