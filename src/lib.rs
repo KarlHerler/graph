@@ -98,9 +98,8 @@ impl Graph {
   fn inner_search(&self, start: usize, target: usize, bfs: bool) -> Option<VecDeque<usize>>  {
     let mut q: VecDeque<usize> = VecDeque::new();
     let mut discovered: HashSet<usize> = HashSet::new();
-    let mut prev: Vec<usize> = Vec::with_capacity(self.graph.len());
+    let mut prev: Vec<usize> = (0..self.graph.len()).map(|_| 0).collect();
     let mut pathfound = false;
-    for _ in (0..self.graph.len()) { prev.push(0); }
 
     q.push_back(start);
     discovered.insert(start);
@@ -159,8 +158,7 @@ impl Graph {
   pub fn dijkstra(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
     let mut costs: Vec<_> = (0..self.graph.len()).map(|_| std::i32::MAX).collect();
     let mut heap = BinaryHeap::new();
-    let mut prev: Vec<usize> = Vec::with_capacity(self.graph.len());
-    for _ in (0..self.graph.len()) { prev.push(0); }
+    let mut prev: Vec<usize> = (0..self.graph.len()).map(|_| 0).collect();
     let mut pathfound = false;
 
     costs[start] = 0;
