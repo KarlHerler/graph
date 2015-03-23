@@ -1,5 +1,33 @@
 use std::collections::VecDeque;
 use std::collections::HashSet;
+use std::collections::BinaryHeap;
+
+use std::cmp::Ordering;
+
+#[derive(Copy, Eq, PartialEq, Debug)]
+struct State {
+    cost: i32,
+    position: usize,
+}
+
+// The priority queue depends on `Ord`.
+// Explicitly implement the trait so the queue becomes a min-heap
+// instead of a max-heap.
+impl Ord for State {
+    fn cmp(&self, other: &State) -> Ordering {
+        // Notice that the we flip the ordering here
+        other.cost.cmp(&self.cost)
+        //self.cost.cmp(&other.cost)
+    }
+}
+
+// `PartialOrd` needs to be implemented as well.
+impl PartialOrd for State {
+    fn partial_cmp(&self, other: &State) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
 
 /// A graph is represeted by as a weighted
 /// [Adjenceny matrix](http://en.wikipedia.org/wiki/Adjacency_matrix)
@@ -96,6 +124,53 @@ impl Graph {
                 if !discovered.contains(&i) {
                   q.push_back(i);
                   prev[i]=v; //track prev (v) on i
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if pathfound {
+      let mut path: VecDeque<usize> = VecDeque::new();
+      let mut curr = target;
+      // backtrack over the prev array to construct the path
+      while curr != start {
+        path.push_front(curr);
+        curr = prev[curr];
+      }
+      path.push_front(start);
+      return Some(path)
+    }
+    return None
+  }
+
+  pub fn dijkstra(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
+    let mut costs: Vec<_> = (0..self.graph.len()).map(|_| std::i32::MAX).collect();
+    let mut heap = BinaryHeap::new();
+    let mut prev: Vec<usize> = Vec::with_capacity(self.graph.len());
+    for _ in (0..self.graph.len()) { prev.push(0); }
+    let mut pathfound = false;
+
+    costs[start] = 0;
+    heap.push(State {cost: 0, position: start});
+
+    while !heap.is_empty() {
+      let v = heap.pop();
+      match v {
+        None => {},
+        Some(State {cost, position}) => {
+          if position == target { println!("Target found"); pathfound = true; }
+          if cost > costs[position] { continue; } // we have a better path
+          for i in (0..self.graph[position].len()) {
+            match self.graph[position][i] {
+              None => {}, // no vertex between position on i
+              Some(c) => {
+                let next = State { cost: cost+c, position: i };
+                if next.cost < costs[i] {
+                  heap.push(next);
+                  costs[i] = next.cost;
+                  prev[i] = position;
                 }
               }
             }
@@ -241,6 +316,61 @@ fn depth_first_search_test_no_valid_path() {
     }
     Some(result) => {
       println!("Depth first search returned something: {:?}", result);
+      assert_eq!(result[result.len()-1], target);
+      assert_eq!(result[0], start);
+      assert!(false);
+    }
+  }
+}
+
+#[test]
+fn dijkstra_test() {
+  let testgraph = vec![vec![Some(0), Some(20), Some(50), Some(10),     None,     None, None],
+                       vec![   None,  Some(0),     None,     None,     None,     None, None],
+                       vec![   None,     None,  Some(0),     None,     None,     None,  Some(50)],
+                       vec![   None,     None,     None,  Some(0), Some(20),     None, None],
+                       vec![   None,     None, Some(20),     None,  Some(0), Some(50),  Some(30)],
+                       vec![   None,     None,     None,     None,     None,  Some(0), None],
+                       vec![   None,     None,     None,     None,     None,     None, Some(0)]];
+  let start: usize = 0;
+  let target: usize = 6;
+  let g = Graph::new(testgraph);
+  let res = g.dijkstra(start, target);
+  match res {
+    None => {
+      println!("Dijkstra search returned None");
+      assert!(false);
+    }
+    Some(result) => {
+      println!("Dijkstra returned something: {:?}", result);
+      assert_eq!(result[result.len()-1], target);
+      assert_eq!(result[0], start);
+    }
+  }
+}
+
+#[test]
+fn dijkstra_test_no_valid_path() {
+  let testgraph = vec![vec![Some(0), Some(20), Some(80), Some(50),     None,     None, None],
+                       vec![   None,  Some(0),     None,     None,     None,     None, None],
+                       vec![   None,     None,  Some(0),     None,     None,     None,  Some(50)],
+                       vec![   None,     None,     None,  Some(0), Some(50),     None, None],
+                       vec![   None,     None, Some(20),     None,  Some(0),     None,  Some(40)],
+                       vec![   None,     None,     None,     None,     None,  Some(0), None],
+                       vec![   None,     None,     None,     None,     None,     None, Some(0)]];
+  let start: usize = 0;
+  let target: usize = 5; // There is no valid path between 0 and 5
+  let g = Graph::new(testgraph);
+  let res = g.dijkstra(start, target);
+
+  // The expected return value is None
+  match res {
+    None => {
+      println!("Dijkstra returned None");
+      assert!(true);
+    }
+    Some(result) => {
+      println!("Dijkstra returned something: {:?}", result);
       assert_eq!(result[result.len()-1], target);
       assert_eq!(result[0], start);
       assert!(false);
