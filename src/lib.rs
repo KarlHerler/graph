@@ -59,6 +59,22 @@ impl Graph {
   /// ```
   pub fn new(input: Vec<Vec<Option<i32>>>) -> Graph { Graph { graph: input } }
 
+  /// `search` promises to use a correct method, i.e. one which will return the
+  /// _best_ path between `start` and `target` if there is a valid path between them.
+  /// Which search method applied is not specified but currently Dijkstras algorithm
+  /// is used. The path found is returned as a `VecDeque<usize>` of nodes. The
+  /// `VecDeque<usize>` is an optional type as there might not be a path.
+  ///
+  /// ## Arguments
+  /// * `start`  - an `usize` designating the start node, or row in the adjecency matrix
+  /// * `target` - an `usize` designating the target node, or row in the adjecency matrix
+  ///
+  /// ## Returns
+  /// Either the found path between start and target as a `VecDeque` of `usize`:s
+  /// or `None` if there is no path.
+  pub fn search(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
+    return self.dijkstra(start, target)
+  }
   /// `breadth_first_search` implements breadth first search from `start` to the
   /// `target` and returns the path found as a `VecDeque<usize>` of nodes. This
   /// is an optional type as there might not be a path.
@@ -218,6 +234,61 @@ impl Graph {
   }
 }
 
+
+#[test]
+fn search_test() {
+  let testgraph = vec![vec![Some(0), Some(20), Some(50), Some(10),     None,     None, None],
+                       vec![   None,  Some(0),     None,     None,     None,     None, None],
+                       vec![   None,     None,  Some(0),     None,     None,     None,  Some(50)],
+                       vec![   None,     None,     None,  Some(0), Some(20),     None, None],
+                       vec![   None,     None, Some(20),     None,  Some(0), Some(50),  Some(30)],
+                       vec![   None,     None,     None,     None,     None,  Some(0), None],
+                       vec![   None,     None,     None,     None,     None,     None, Some(0)]];
+  let start: usize = 0;
+  let target: usize = 6;
+  let g = Graph::new(testgraph);
+  let res = g.search(start, target);
+  match res {
+    None => {
+      println!("Search returned None");
+      assert!(false);
+    }
+    Some(result) => {
+      println!("Search returned something: {:?}", result);
+      assert_eq!(result[result.len()-1], target);
+      assert_eq!(result[0], start);
+    }
+  }
+}
+
+#[test]
+fn search_test_no_valid_path() {
+  let testgraph = vec![vec![Some(0), Some(20), Some(80), Some(50),     None,     None, None],
+                       vec![   None,  Some(0),     None,     None,     None,     None, None],
+                       vec![   None,     None,  Some(0),     None,     None,     None,  Some(50)],
+                       vec![   None,     None,     None,  Some(0), Some(50),     None, None],
+                       vec![   None,     None, Some(20),     None,  Some(0),     None,  Some(40)],
+                       vec![   None,     None,     None,     None,     None,  Some(0), None],
+                       vec![   None,     None,     None,     None,     None,     None, Some(0)]];
+  let start: usize = 0;
+  let target: usize = 5; // There is no valid path between 0 and 5
+  let g = Graph::new(testgraph);
+  let res = g.search(start, target);
+
+  // The expected return value is None
+  match res {
+    None => {
+      println!("Search returned None");
+      assert!(true);
+    }
+    Some(result) => {
+      println!("Search returned something: {:?}", result);
+      assert_eq!(result[result.len()-1], target);
+      assert_eq!(result[0], start);
+      assert!(false);
+    }
+  }
+}
 
 #[test]
 fn breadth_first_search_test() {
