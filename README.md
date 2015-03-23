@@ -14,10 +14,7 @@ moment featureset is quite limited.
  - Graphs with vertex costs
  - Breadth first search
  - Depth first search
-
-## Todo
- - Implement a priority queue for use in the `inner_search` function. This will
-   enable implementation of best first search.
+ - Dijksras algorithm
 
 ## License
 
