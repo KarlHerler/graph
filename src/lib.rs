@@ -95,45 +95,6 @@ impl Graph {
     return self.inner_search(start, target, false)
   }
 
-  fn inner_search(&self, start: usize, target: usize, bfs: bool) -> Option<VecDeque<usize>>  {
-    let mut q: VecDeque<usize> = VecDeque::new();
-    let mut discovered: HashSet<usize> = HashSet::new();
-    let mut prev: Vec<usize> = (0..self.graph.len()).map(|_| 0).collect();
-    let mut pathfound = false;
-
-    q.push_back(start);
-    discovered.insert(start);
-
-    while !q.is_empty() {
-      let mut v: Option<usize>;
-      if bfs {
-        v = q.pop_front()
-      } else {
-        v = q.pop_back();
-      }
-      match v {
-        None => {}, // q is empty
-        Some(v) => { // we are working on a new layer
-          if !discovered.contains(&v) { discovered.insert(v); }
-          if v == target { pathfound = true; }
-          for i in (0..self.graph[v].len()) {
-            match self.graph[v][i] {
-              None => {}, // no vertex between v and i
-              Some(_) => {
-                if !discovered.contains(&i) {
-                  q.push_back(i);
-                  prev[i]=v; //track prev (v) on i
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    if pathfound { return Some(self.backtrack(prev, start, target)) }
-    return None
-  }
-
   /// `dijkstra` implements Dijkstras algorithm for search from `start` to the
   /// `target` and returns the path found as a `VecDeque<usize>` of nodes. This
   /// is an optional type as there might not be a path.
@@ -181,18 +142,6 @@ impl Graph {
     return None
   }
 
-  fn backtrack(&self, prev: Vec<usize>, start: usize, target: usize) -> VecDeque<usize> {
-      let mut path: VecDeque<usize> = VecDeque::new();
-      let mut curr = target;
-      // backtrack over the prev array to construct the path
-      while curr != start {
-        path.push_front(curr);
-        curr = prev[curr];
-      }
-      path.push_front(start);
-      return path
-  }
-
   /// `cost_of_path` takes a path returned from any of the search functions and
   /// calculates the cost of the path.
   ///
@@ -210,6 +159,57 @@ impl Graph {
       }
     }
     return cost
+  }
+
+  fn inner_search(&self, start: usize, target: usize, bfs: bool) -> Option<VecDeque<usize>>  {
+    let mut q: VecDeque<usize> = VecDeque::new();
+    let mut discovered: HashSet<usize> = HashSet::new();
+    let mut prev: Vec<usize> = (0..self.graph.len()).map(|_| 0).collect();
+    let mut pathfound = false;
+
+    q.push_back(start);
+    discovered.insert(start);
+
+    while !q.is_empty() {
+      let mut v: Option<usize>;
+      if bfs {
+        v = q.pop_front()
+      } else {
+        v = q.pop_back();
+      }
+      match v {
+        None => {}, // q is empty
+        Some(v) => { // we are working on a new layer
+          if !discovered.contains(&v) { discovered.insert(v); }
+          if v == target { pathfound = true; }
+          for i in (0..self.graph[v].len()) {
+            match self.graph[v][i] {
+              None => {}, // no vertex between v and i
+              Some(_) => {
+                if !discovered.contains(&i) {
+                  q.push_back(i);
+                  prev[i]=v; //track prev (v) on i
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    if pathfound { return Some(self.backtrack(prev, start, target)) }
+    return None
+  }
+
+  fn backtrack(&self, prev: Vec<usize>, start: usize, target: usize) -> VecDeque<usize> {
+      let mut path: VecDeque<usize> = VecDeque::new();
+      let mut curr = target;
+      // backtrack over the prev array to construct the path
+      while curr != start {
+        path.push_front(curr);
+        curr = prev[curr];
+      }
+      path.push_front(start);
+      return path
   }
 }
 
