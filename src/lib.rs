@@ -156,16 +156,16 @@ impl Graph {
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
   /// or `None` if there is no path.
   pub fn dijkstra(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
+    let mut q = BinaryHeap::new();
     let mut costs: Vec<_> = (0..self.graph.len()).map(|_| std::i32::MAX).collect();
-    let mut heap = BinaryHeap::new();
     let mut prev: Vec<usize> = (0..self.graph.len()).map(|_| 0).collect();
     let mut pathfound = false;
 
     costs[start] = 0;
-    heap.push(State {cost: 0, position: start});
+    q.push(State {cost: 0, position: start});
 
-    while !heap.is_empty() {
-      let v = heap.pop();
+    while !q.is_empty() {
+      let v = q.pop();
       match v {
         None => {},
         Some(State {cost, position}) => {
@@ -177,7 +177,7 @@ impl Graph {
               Some(c) => {
                 let next = State { cost: cost+c, position: i };
                 if next.cost < costs[i] {
-                  heap.push(next);
+                  q.push(next);
                   costs[i] = next.cost;
                   prev[i] = position;
                 }
