@@ -200,6 +200,11 @@ impl Graph {
     return None
   }
 
+  /// `backtrack` is a simple function for traversing the graph from `target` to
+  /// `start` using the path indicated by the `prev` Vec.
+  ///
+  /// ## Returns
+  /// Returns a the path between `start` and `target` as a `VecDeque<usize>`.
   fn backtrack(&self, prev: Vec<usize>, start: usize, target: usize) -> VecDeque<usize> {
       let mut path: VecDeque<usize> = VecDeque::new();
       let mut curr = target;
