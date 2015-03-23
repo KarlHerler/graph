@@ -145,6 +145,17 @@ impl Graph {
     return None
   }
 
+  /// `dijkstra` implements Dijkstras algorithm for search from `start` to the
+  /// `target` and returns the path found as a `VecDeque<usize>` of nodes. This
+  /// is an optional type as there might not be a path.
+  ///
+  /// ## Arguments
+  /// * `start`  - an `usize` designating the start node, or row in the adjecency matrix
+  /// * `target` - an `usize` designating the target node, or row in the adjecency matrix
+  ///
+  /// ## Returns
+  /// Either the found path between start and target as a `VecDeque` of `usize`:s
+  /// or `None` if there is no path.
   pub fn dijkstra(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
     let mut costs: Vec<_> = (0..self.graph.len()).map(|_| std::i32::MAX).collect();
     let mut heap = BinaryHeap::new();
