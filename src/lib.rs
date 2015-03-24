@@ -162,11 +162,12 @@ impl Graph {
   /// calculates the cost of the path.
   ///
   /// ## Arguments
-  /// * `path` - a `VecDeque<usize>` representing a path through the graph
+  /// * `path` - a borrowed reference to a `VecDeque<usize>` representing a path
+  ///            through the graph
   ///
   /// ## Returns
   /// The cost of traversing said path represented as an `i32`
-  pub fn cost_of_path(&self, path: VecDeque<usize>) -> i32 {
+  pub fn cost_of_path(&self, path: &VecDeque<usize>) -> i32 {
     let mut cost = 0;
     for i in (0..path.len()-1) {
       match self.graph[path[i]][path[i+1]] {
@@ -283,6 +284,7 @@ fn search_test_no_valid_path() {
     }
     Some(result) => {
       println!("Search returned something: {:?}", result);
+      println!("The returned path cost: {}", g.cost_of_path(&result));
       assert_eq!(result[result.len()-1], target);
       assert_eq!(result[0], start);
       assert!(false);
