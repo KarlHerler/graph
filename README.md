@@ -20,7 +20,7 @@ moment featureset is quite limited.
 
 Here's a short basic example of using this library as an external crate:
 
-```
+```rust
 extern crate graphsearch;
 use graphsearch::Graph;
 fn main() {
