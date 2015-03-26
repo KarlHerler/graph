@@ -4,17 +4,22 @@ use std::collections::BinaryHeap;
 
 use std::cmp::Ordering;
 
-#[derive(Copy, Eq, PartialEq, Debug)]
-struct State {
-    cost: i32,
-    position: usize,
+
+pub struct Node<T> {
+  content: T,
+  adjecent: Vec<Vertex>,
 }
 
+#[derive(Copy, Eq, PartialEq, Debug)]
+pub struct Vertex {
+  cost: i32,
+  node: usize
+}
 // The priority queue depends on `Ord`.
 // Explicitly implement the trait so the queue becomes a min-heap
 // instead of a max-heap.
-impl Ord for State {
-    fn cmp(&self, other: &State) -> Ordering {
+impl Ord for Vertex {
+    fn cmp(&self, other: &Vertex) -> Ordering {
         // Notice that the we flip the ordering here
         other.cost.cmp(&self.cost)
         //self.cost.cmp(&other.cost)
@@ -22,8 +27,8 @@ impl Ord for State {
 }
 
 // `PartialOrd` needs to be implemented as well.
-impl PartialOrd for State {
-    fn partial_cmp(&self, other: &State) -> Option<Ordering> {
+impl PartialOrd for Vertex {
+    fn partial_cmp(&self, other: &Vertex) -> Option<Ordering> {
         Some(self.cmp(other))
     }
 }
