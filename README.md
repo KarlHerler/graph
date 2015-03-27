@@ -23,10 +23,16 @@ Here's a short basic example of using this library as an external crate:
 ```rust
 extern crate graphsearch;
 use graphsearch::Graph;
+use graphsearch::Node;
+use graphsearch::Vertex;
 fn main() {
-  let testgraph = vec![vec![Some(0), Some(20), None],
-                       vec![   None,  Some(0), Some(30)],
-                       vec![   None,     None, Some(0)]];
+  let testgraph = vec![Node{content: "Helsinki",
+                            adjecent: vec![Vertex{cost: 20, node: 1},
+                                           Vertex{cost: 50, node: 2}]},
+                       Node{content: "Turku",
+                            adjecent: vec![Vertex{cost: 30, node:2}]},
+                       Node{content: "Tampere",
+                            adjecent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 2;
   let g = Graph::new(testgraph);
@@ -41,8 +47,6 @@ fn main() {
     }
   }
 }
-
-
 ```
 
 ## License
