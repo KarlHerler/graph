@@ -5,15 +5,23 @@ use std::collections::BinaryHeap;
 use std::cmp::Ordering;
 
 
+/// A node in the graph, made up a any content type `T` and a `Vec` of vertices
 pub struct Node<T> {
-  content: T,
-  adjecent: Vec<Vertex>,
+  /// content can be any type `T`
+  pub content: T,
+  /// adjecent takes a `Vec` of vertices to adjecent nodes
+  pub adjecent: Vec<Vertex>,
 }
 
+/// A vertex between two `Node`s with an associated `i32` cost and a target node.
+/// `Vertex` derives `Copy`, `Debug`, `Eq` and `PartialEq` and implements `Ord` and
+/// `PartialOrd` as we use it ordered compound types.
 #[derive(Copy, Eq, PartialEq, Debug)]
 pub struct Vertex {
-  cost: i32,
-  node: usize
+  /// cost is defiened as an `ì32`, which might change
+  pub cost: i32,
+  /// node, an `usize` index of the node at the other end of this vertex
+  pub node: usize
 }
 // The priority queue depends on `Ord`.
 // Explicitly implement the trait so the queue becomes a min-heap
