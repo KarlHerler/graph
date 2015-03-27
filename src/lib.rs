@@ -266,6 +266,8 @@ fn search_test() {
                        Node{content: 6, adjecent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 6;
+  let expected_path = vec![0, 3, 4, 6];
+  let expected_cost = 60;
   let g = Graph::new(testgraph);
   let res = g.search(start, target);
   match res {
@@ -275,8 +277,11 @@ fn search_test() {
     }
     Some(result) => {
       println!("Search returned something: {:?}", result);
+      println!("The cost of path is: {}", g.cost_of_path(&result));
       assert_eq!(result[result.len()-1], target);
       assert_eq!(result[0], start);
+      for i in (0..expected_path.len()) { assert_eq!(result[i], expected_path[i]); }
+      assert_eq!(expected_cost, g.cost_of_path(&result));
     }
   }
 }
@@ -322,6 +327,8 @@ fn breadth_first_search_test() {
                        Node{content: 6, adjecent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 6;
+  let expected_path = vec![0, 2, 6];
+  let expected_cost = 100;
   let g = Graph::new(testgraph);
   let res = g.breadth_first_search(start, target);
   match res {
@@ -380,6 +387,8 @@ fn depth_first_search_test() {
                        Node{content: 6, adjecent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 6;
+  let expected_path = vec![0, 3, 4, 6];
+  let expected_cost = 60;
   let g = Graph::new(testgraph);
   let res = g.depth_first_search(start, target);
   match res {
@@ -389,8 +398,11 @@ fn depth_first_search_test() {
     }
     Some(result) => {
       println!("Depth first search returned something: {:?}", result);
+      println!("The cost of path is: {}", g.cost_of_path(&result));
       assert_eq!(result[result.len()-1], target);
       assert_eq!(result[0], start);
+      for i in (0..expected_path.len()) { assert_eq!(result[i], expected_path[i]); }
+      assert_eq!(expected_cost, g.cost_of_path(&result));
     }
   }
 }
@@ -435,6 +447,8 @@ fn dijkstra_test() {
                        Node{content: 6, adjecent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 6;
+  let expected_path = vec![0, 3, 4, 6];
+  let expected_cost = 60;
   let g = Graph::new(testgraph);
   let res = g.dijkstra(start, target);
   match res {
@@ -444,8 +458,11 @@ fn dijkstra_test() {
     }
     Some(result) => {
       println!("Dijkstra returned something: {:?}", result);
+      println!("The cost of path is: {}", g.cost_of_path(&result));
       assert_eq!(result[result.len()-1], target);
       assert_eq!(result[0], start);
+      for i in (0..expected_path.len()) { assert_eq!(result[i], expected_path[i]); }
+      assert_eq!(expected_cost, g.cost_of_path(&result));
     }
   }
 }
