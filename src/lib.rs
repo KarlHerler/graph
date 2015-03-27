@@ -34,32 +34,47 @@ impl PartialOrd for Vertex {
 }
 
 
-/// A graph is represeted by as a weighted
-/// [Adjenceny matrix](http://en.wikipedia.org/wiki/Adjacency_matrix)
+/// A graph, represeted by as a weighted
+/// [Adjenceny list](http://en.wikipedia.org/wiki/Adjacency_list) of `Node`s
 pub struct Graph<T> {
   /// The underlaying graph represented here with weights as an i32 (should
   /// probably be generic) the graph is represented as an
-  /// [Adjenceny matrix](http://en.wikipedia.org/wiki/Adjacency_matrix) of
-  /// Optionals, where None indicates that there doesn't exist a vertex and
-  /// Some<i32> indicates that There is a vertex of weight i32.
+  /// [Adjenceny list](http://en.wikipedia.org/wiki/Adjacency_list) of
+  /// Nodes. Nodes themselves are made up of a type T content and a list of adjecent
+  /// Vertices
   graph: Vec<Node<T>>
 }
 impl <T> Graph<T> {
-  /// `new` allows for initializing the graph struct with a given adjecency matrix
+  /// `new` allows for initializing the graph struct with a given adjecency list
   ///
   /// ## Arguments
-  /// * `input` - an adjecency matrix in made out of a two-dimensional `Vec` of
-  ///    weights. Weights are represented as `i32`:s and can thus be positive or
+  /// * `input` - an adjecency list in made out of a `Vec` of Nodes.
+  ///    Weights are represented as `i32`:s and can thus be positive or
   ///    negative numbers.
   ///
   /// ## Example
-  /// ```ignore
-  ///  let rawgraph = vec![vec![Some(0), Some(20), Some(80), Some(50),     None,     None],
-  ///                      vec![   None,  Some(0),     None,     None,     None,     None],
-  ///                      vec![   None,     None,  Some(0),     None,     None,     None],
-  ///                      vec![   None,     None,     None,  Some(0), Some(50),     None],
-  ///                      vec![   None,     None, Some(20),     None,  Some(0), Some(50)],
-  ///                      vec![   None,     None,     None,     None,     None,  Some(0)]];
+  /// ```
+  /// use graphsearch::Graph;
+  /// use graphsearch::Node;
+  /// use graphsearch::Vertex;
+  /// let rawgraph = vec![Node{content: "Helsinki",
+  ///                          adjecent: vec![Vertex{cost: 20, node: 1},
+  ///                                         Vertex{cost: 50, node: 2},
+  ///                                         Vertex{cost: 10, node: 3}]},
+  ///                     Node{content: "Turku",
+  ///                          adjecent: Vec::new()},
+  ///                     Node{content: "Tampere",
+  ///                          adjecent: vec![Vertex{cost: 50, node: 6}]},
+  ///                     Node{content: "Jyväskylä",
+  ///                          adjecent: vec![Vertex{cost: 20, node: 4}]},
+  ///                     Node{content: "Oulu",
+  ///                          adjecent: vec![Vertex{cost: 20, node: 3},
+  ///                                         Vertex{cost: 50, node: 3},
+  ///                                         Vertex{cost: 30, node: 6}]},
+  ///                     Node{content: "Rovaniemi",
+  ///                          adjecent: Vec::new()},
+  ///                     Node{content: "Vasa",
+  ///                          adjecent: Vec::new()}];
   /// let g = Graph::new(rawgraph);
   /// ```
   pub fn new(input: Vec<Node<T>>) -> Graph<T> {
@@ -73,8 +88,8 @@ impl <T> Graph<T> {
   /// `VecDeque<usize>` is an optional type as there might not be a path.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency matrix
-  /// * `target` - an `usize` designating the target node, or row in the adjecency matrix
+  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
+  /// * `target` - an `usize` designating the target node, or row in the adjecency list
   ///
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
@@ -90,8 +105,8 @@ impl <T> Graph<T> {
   /// weight to nodes.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency matrix
-  /// * `target` - an `usize` designating the target node, or row in the adjecency matrix
+  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
+  /// * `target` - an `usize` designating the target node, or row in the adjecency list
   ///
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
@@ -108,8 +123,8 @@ impl <T> Graph<T> {
   /// weight to nodes.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency matrix
-  /// * `target` - an `usize` designating the target node, or row in the adjecency matrix
+  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
+  /// * `target` - an `usize` designating the target node, or row in the adjecency list
   ///
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
@@ -123,8 +138,8 @@ impl <T> Graph<T> {
   /// is an optional type as there might not be a path.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency matrix
-  /// * `target` - an `usize` designating the target node, or row in the adjecency matrix
+  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
+  /// * `target` - an `usize` designating the target node, or row in the adjecency list
   ///
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
