@@ -1,0 +1,4 @@
+language: rust
+env:
+  global:
+    secure: Bp8GS4wRfWImDDjkbNqkPJGSeoYhziCpryxppJ+ggscPkSt+bJaCRA4zLfRiNtIysFGKn2CRNfNOGsnUst3avk296gvXd4qCJSWwZsEcG0Qfwog0xU7Q+21bCRK6u3ODnUq4WxG9fe07+/PcU9MjrbrPdb24nOVxR8VSm9kk7Y0=
