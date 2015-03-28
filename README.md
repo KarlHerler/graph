@@ -22,9 +22,7 @@ Here's a short basic example of using this library as an external crate:
 
 ```rust
 extern crate graphsearch;
-use graphsearch::Graph;
-use graphsearch::Node;
-use graphsearch::Vertex;
+use graphsearch::{Graph, Node, Vertex};
 fn main() {
   let testgraph = vec![Node{content: "Helsinki",
                             adjecent: vec![Vertex{cost: 20, node: 1},

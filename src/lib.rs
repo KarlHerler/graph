@@ -1,3 +1,32 @@
+//! A [graph](http://en.wikipedia.org/wiki/Graph_(abstract_data_type))
+//! representation and search library
+//!
+//! # Example
+//! ```
+//! use graphsearch::{Graph, Node, Vertex};
+//! let rawgraph = vec![Node{content: "Helsinki",
+//!                          adjecent: vec![Vertex{cost: 20, node: 1},
+//!                                         Vertex{cost: 50, node: 2}]},
+//!                     Node{content: "Turku",
+//!                          adjecent: vec![Vertex{cost: 30, node: 2}]},
+//!                     Node{content: "Tampere",
+//!                          adjecent: Vec::new()}];
+//! let g = Graph::new(rawgraph);
+//! let start  = 0;
+//! let target = 2;
+//! let res = g.search(start, target); // uses dijkstras algorithm
+//! match res {
+//!   None => {
+//!     println!("Search returned None");
+//!   }
+//!   Some(result) => {
+//!     println!("Search returned a path: {:?}", result);
+//!     println!("The returned path cost: {}", g.cost_of_path(&result));
+//!   }
+//! }
+//! ```
+
+
 use std::collections::VecDeque;
 use std::collections::HashSet;
 use std::collections::BinaryHeap;
@@ -62,9 +91,7 @@ impl <T> Graph<T> {
   ///
   /// ## Example
   /// ```
-  /// use graphsearch::Graph;
-  /// use graphsearch::Node;
-  /// use graphsearch::Vertex;
+  /// use graphsearch::{Graph, Node, Vertex};
   /// let rawgraph = vec![Node{content: "Helsinki",
   ///                          adjecent: vec![Vertex{cost: 20, node: 1},
   ///                                         Vertex{cost: 50, node: 2},
@@ -77,7 +104,6 @@ impl <T> Graph<T> {
   ///                          adjecent: vec![Vertex{cost: 20, node: 4}]},
   ///                     Node{content: "Oulu",
   ///                          adjecent: vec![Vertex{cost: 20, node: 3},
-  ///                                         Vertex{cost: 50, node: 3},
   ///                                         Vertex{cost: 30, node: 6}]},
   ///                     Node{content: "Rovaniemi",
   ///                          adjecent: Vec::new()},
