@@ -1,9 +1,10 @@
 [package]
 
 name = "graphsearch"
-version = "0.4.0"
+version = "0.4.1"
 authors = ["Karl Herler <hi@karlherler.com>"]
 description = "A simple graph search and representation library"
+documentation = "http://karlherler.github.io/graph"
 repository = "https://github.com/KarlHerler/graph"
 readme = "README.md"
 keywords = ["graph", "search", "bfs", "dfs"]
