@@ -81,7 +81,7 @@ pub struct Graph<T> {
   /// Vertices
   graph: Vec<Node<T>>
 }
-impl <T> Graph<T> {
+impl <T: PartialEq> Graph<T> {
   /// `new` allows for initializing the graph struct with a given adjecency list
   ///
   /// ## Arguments
