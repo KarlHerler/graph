@@ -128,9 +128,10 @@ impl <T: PartialEq> Graph<T> {
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
   /// or `None` if there is no path.
-  pub fn search(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
-    return self.dijkstra(start, target)
+  pub fn search_using_index(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
+    return self.dijkstra_using_index(start, target)
   }
+
   /// `breadth_first_search` implements breadth first search from `start` to the
   /// `target` and returns the path found as a `VecDeque<usize>` of nodes. This
   /// is an optional type as there might not be a path.
@@ -145,8 +146,8 @@ impl <T: PartialEq> Graph<T> {
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
   /// or `None` if there is no path.
-  pub fn breadth_first_search(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
-    return self.inner_search(start, target, true)
+  pub fn breadth_first_search_using_index(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
+    return self.inner_search_using_index(start, target, true)
   }
 
   /// `depth_first_search` implements depth first search from `start` to the
@@ -163,8 +164,8 @@ impl <T: PartialEq> Graph<T> {
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
   /// or `None` if there is no path.
-  pub fn depth_first_search(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
-    return self.inner_search(start, target, false)
+  pub fn depth_first_search_using_index(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
+    return self.inner_search_using_index(start, target, false)
   }
 
   /// `dijkstra` implements Dijkstras algorithm for search from `start` to the
@@ -209,6 +210,23 @@ impl <T: PartialEq> Graph<T> {
     return None
   }
 
+  /// `dijkstra_using_index` implements Dijkstras algorithm for search from the `start`
+  /// index to the `target` index and returns the path found as a `VecDeque<usize>`
+  /// of nodes. This is an optional type as there might not be a path.
+  ///
+  /// ## Arguments
+  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
+  /// * `target` - an `usize` designating the target node, or row in the adjecency list
+  ///
+  /// ## Returns
+  /// Either the found path between start and target as a `VecDeque` of `usize`:s
+  /// or `None` if there is no path.
+  pub fn dijkstra_using_index(&self, start: usize, target: usize) -> Option<VecDeque<usize>> {
+    match self.index_to_node(target) {
+      None => { return None }, // target does not exist in the graph
+      Some(node) => { return self.dijkstra(start, &node.content) }
+    }
+  }
   /// `cost_of_path` takes a path returned from any of the search functions and
   /// calculates the cost of the path.
   ///
@@ -343,6 +361,69 @@ fn search_test_no_valid_path() {
 }
 
 #[test]
+fn search_using_index_test() {
+  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjecent: Vec::new()},
+                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjecent: Vec::new()},
+                       Node{content: 6, adjecent: Vec::new()}];
+  let start: usize = 0;
+  let target: usize = 6;
+  let expected_path = vec![0, 3, 4, 6];
+  let expected_cost = 60;
+  let g = Graph::new(testgraph);
+  let res = g.search_using_index(start, target);
+  match res {
+    None => {
+      println!("Search returned None");
+      assert!(false);
+    }
+    Some(result) => {
+      println!("Search returned something: {:?}", result);
+      println!("The cost of path is: {}", g.cost_of_path(&result));
+      assert_eq!(result[result.len()-1], target);
+      assert_eq!(result[0], start);
+      for i in (0..expected_path.len()) { assert_eq!(result[i], expected_path[i]); }
+      assert_eq!(expected_cost, g.cost_of_path(&result));
+    }
+  }
+}
+
+#[test]
+fn search_using_index_test_no_valid_path() {
+  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjecent: Vec::new()},
+                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjecent: Vec::new()},
+                       Node{content: 6, adjecent: Vec::new()}];
+  let start: usize = 0;
+  let target: usize = 5; // There is no valid path between 0 and 5
+  let g = Graph::new(testgraph);
+  let res = g.search_using_index(start, target);
+
+  // The expected return value is None
+  match res {
+    None => {
+      println!("Search returned None");
+      assert!(true);
+    }
+    Some(result) => {
+      println!("Search returned something: {:?}", result);
+      println!("The returned path cost: {}", g.cost_of_path(&result));
+      assert_eq!(result[result.len()-1], target);
+      assert_eq!(result[0], start);
+      assert!(false);
+    }
+  }
+}
+
+/* Breadth first search tests */
+
+#[test]
 fn breadth_first_search_test() {
   let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
                        Node{content: 1, adjecent: Vec::new()},
@@ -401,6 +482,68 @@ fn breadth_first_search_test_no_valid_path() {
     }
   }
 }
+
+#[test]
+fn breadth_first_search_using_index_test() {
+  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjecent: Vec::new()},
+                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjecent: Vec::new()},
+                       Node{content: 6, adjecent: Vec::new()}];
+  let start: usize = 0;
+  let target: usize = 6;
+  let expected_path = vec![0, 2, 6];
+  let expected_cost = 100;
+  let g = Graph::new(testgraph);
+  let res = g.breadth_first_search_using_index(start, target);
+  match res {
+    None => {
+      println!("Breadth first search returned None");
+      assert!(false);
+    }
+    Some(result) => {
+      println!("Breadth first search returned something: {:?}", result);
+      println!("The cost of path is: {}", g.cost_of_path(&result));
+      assert_eq!(result[result.len()-1], target);
+      assert_eq!(result[0], start);
+      for i in (0..expected_path.len()) { assert_eq!(result[i], expected_path[i]); }
+      assert_eq!(expected_cost, g.cost_of_path(&result));
+    }
+  }
+}
+
+#[test]
+fn breadth_first_search_using_index_test_no_valid_path() {
+  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjecent: Vec::new()},
+                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjecent: Vec::new()},
+                       Node{content: 6, adjecent: Vec::new()}];
+  let start: usize = 0;
+  let target: usize = 5; // There is no valid path between 0 and 5
+  let g = Graph::new(testgraph);
+  let res = g.breadth_first_search_using_index(start, target);
+
+  // The expected return value is None
+  match res {
+    None => {
+      println!("Breadth first search returned None");
+      assert!(true);
+    }
+    Some(result) => {
+      println!("Breadth first search returned something: {:?}", result);
+      assert_eq!(result[result.len()-1], target);
+      assert_eq!(result[0], start);
+      assert!(false);
+    }
+  }
+}
+
+/* Depth first tests */
 
 #[test]
 fn depth_first_search_test() {
@@ -463,7 +606,7 @@ fn depth_first_search_test_no_valid_path() {
 }
 
 #[test]
-fn dijkstra_test() {
+fn depth_first_search_using_index_test() {
   let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
                        Node{content: 1, adjecent: Vec::new()},
                        Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
@@ -494,7 +637,7 @@ fn dijkstra_test() {
 }
 
 #[test]
-fn dijkstra_test_no_valid_path() {
+fn dijkstra_using_index_test_no_valid_path() {
   let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
                        Node{content: 1, adjecent: Vec::new()},
                        Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
@@ -505,7 +648,7 @@ fn dijkstra_test_no_valid_path() {
   let start: usize = 0;
   let target: usize = 5; // There is no valid path between 0 and 5
   let g = Graph::new(testgraph);
-  let res = g.dijkstra(start, target);
+  let res = g.dijkstra_using_index(start, target);
 
   // The expected return value is None
   match res {
