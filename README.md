@@ -32,7 +32,7 @@ fn main() {
                        Node{content: "Tampere",
                             adjecent: Vec::new()}];
   let start: usize = 0;
-  let target: usize = 2;
+  let target = "Tampere";
   let g = Graph::new(testgraph);
   let res = g.search(start, target); // uses dijkstras algorithm
   match res {
