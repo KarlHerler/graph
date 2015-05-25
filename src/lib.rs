@@ -45,7 +45,7 @@ pub struct Node<T> {
 /// A vertex between two `Node`s with an associated `i32` cost and a target node.
 /// `Vertex` derives `Copy`, `Debug`, `Eq` and `PartialEq` and implements `Ord` and
 /// `PartialOrd` as we use it ordered compound types.
-#[derive(Copy, Eq, PartialEq, Debug)]
+#[derive(Eq, PartialEq, Debug)]
 pub struct Vertex {
   /// cost is defiened as an `ì32`, which might change
   pub cost: i32,
@@ -256,9 +256,9 @@ impl <T: PartialEq> Graph<T> {
           for vert in &self.graph[node].adjecent {
             let next = Vertex { cost: cost+vert.cost, node: vert.node };
             if next.cost < costs[vert.node] {
-              q.push(next);
               costs[vert.node] = next.cost;
               prev[vert.node] = node;
+              q.push(next);
             }
           }
         }
