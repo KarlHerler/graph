@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Graph` struct in crate `graphsearch`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Graph">
+
+    <title>graphsearch::Graph - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <section class="sidebar">
+        
+        <p class='location'><a href='index.html'>graphsearch</a></p><script>window.sidebarCurrent = {name: 'Graph', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </section>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press 'S' to search, '?' for more options..."
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>graphsearch</a>::<wbr><a class='struct' href=''>Graph</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-216' class='srclink' href='../src/graphsearch/lib.rs.html#76-83' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Graph&lt;T&gt; {
+    // some fields omitted
+}</pre><div class='docblock'><p>A graph, represeted by as a weighted
+<a href="http://en.wikipedia.org/wiki/Adjacency_list">Adjacency list</a> of <code>Node</code>s</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;T: <a class='trait' href='http://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a>&gt; <a class='struct' href='../graphsearch/struct.Graph.html' title='graphsearch::Graph'>Graph</a>&lt;T&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(input: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../graphsearch/struct.Node.html' title='graphsearch::Node'>Node</a>&lt;T&gt;&gt;) -&gt; <a class='struct' href='../graphsearch/struct.Graph.html' title='graphsearch::Graph'>Graph</a>&lt;T&gt;</code></h4>
+<div class='docblock'><p><code>new</code> allows for initializing the graph struct with a given adjacency list</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>input</code> - an adjacency list in made out of a <code>Vec</code> of Nodes.
+Weights are represented as <code>i32</code>:s and can thus be positive or
+negative numbers.</li>
+</ul>
+
+<h2 id="example" class='section-header'><a
+                           href="#example">Example</a></h2><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>graphsearch</span>::{<span class='ident'>Graph</span>, <span class='ident'>Node</span>, <span class='ident'>Vertex</span>};
+<span class='kw'>let</span> <span class='ident'>rawgraph</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Node</span>{<span class='ident'>content</span>: <span class='string'>&quot;Helsinki&quot;</span>,
+                         <span class='ident'>adjacent</span>: <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Vertex</span>{<span class='ident'>cost</span>: <span class='number'>20</span>, <span class='ident'>node</span>: <span class='number'>1</span>},
+                                        <span class='ident'>Vertex</span>{<span class='ident'>cost</span>: <span class='number'>50</span>, <span class='ident'>node</span>: <span class='number'>2</span>},
+                                        <span class='ident'>Vertex</span>{<span class='ident'>cost</span>: <span class='number'>10</span>, <span class='ident'>node</span>: <span class='number'>3</span>}]},
+                    <span class='ident'>Node</span>{<span class='ident'>content</span>: <span class='string'>&quot;Turku&quot;</span>,
+                         <span class='ident'>adjacent</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>()},
+                    <span class='ident'>Node</span>{<span class='ident'>content</span>: <span class='string'>&quot;Tampere&quot;</span>,
+                         <span class='ident'>adjacent</span>: <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Vertex</span>{<span class='ident'>cost</span>: <span class='number'>50</span>, <span class='ident'>node</span>: <span class='number'>6</span>}]},
+                    <span class='ident'>Node</span>{<span class='ident'>content</span>: <span class='string'>&quot;Jyväskylä&quot;</span>,
+                         <span class='ident'>adjacent</span>: <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Vertex</span>{<span class='ident'>cost</span>: <span class='number'>20</span>, <span class='ident'>node</span>: <span class='number'>4</span>}]},
+                    <span class='ident'>Node</span>{<span class='ident'>content</span>: <span class='string'>&quot;Oulu&quot;</span>,
+                         <span class='ident'>adjacent</span>: <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Vertex</span>{<span class='ident'>cost</span>: <span class='number'>20</span>, <span class='ident'>node</span>: <span class='number'>3</span>},
+                                        <span class='ident'>Vertex</span>{<span class='ident'>cost</span>: <span class='number'>30</span>, <span class='ident'>node</span>: <span class='number'>6</span>}]},
+                    <span class='ident'>Node</span>{<span class='ident'>content</span>: <span class='string'>&quot;Rovaniemi&quot;</span>,
+                         <span class='ident'>adjacent</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>()},
+                    <span class='ident'>Node</span>{<span class='ident'>content</span>: <span class='string'>&quot;Vasa&quot;</span>,
+                         <span class='ident'>adjacent</span>: <span class='ident'>Vec</span>::<span class='ident'>new</span>()}];
+<span class='kw'>let</span> <span class='ident'>g</span> <span class='op'>=</span> <span class='ident'>Graph</span>::<span class='ident'>new</span>(<span class='ident'>rawgraph</span>);
+</pre>
+</div><h4 id='method.search' class='method'><code>fn <a href='#method.search' class='fnname'>search</a>(&amp;self, start: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, target: T) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;&gt;</code></h4>
+<div class='docblock'><p><code>search</code> promises to use a correct method, i.e. one which will return the
+<em>best</em> path between <code>start</code> and <code>target</code> if there is a valid path between them.
+Which search method applied is not specified but currently Dijkstras algorithm
+is used. The path found is returned as a <code>VecDeque&lt;usize&gt;</code> of nodes. The
+<code>VecDeque&lt;usize&gt;</code> is an optional type as there might not be a path.</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>start</code>  - an <code>usize</code> designating the start node, or row in the adjacency list</li>
+<li><code>target</code> - an <code>T</code> designating the target node</li>
+</ul>
+
+<h2 id="returns" class='section-header'><a
+                           href="#returns">Returns</a></h2>
+<p>Either the found path between start and target as a <code>VecDeque</code> of <code>usize</code>:s
+or <code>None</code> if there is no path.</p>
+</div><h4 id='method.search_using_index' class='method'><code>fn <a href='#method.search_using_index' class='fnname'>search_using_index</a>(&amp;self, start: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, target: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;&gt;</code></h4>
+<div class='docblock'><p><code>search_using_index</code> promises to use a correct method, i.e. one which will
+return the <em>best</em> path between the <code>start</code> index and <code>target</code> index if there
+is a valid path between them. Which search method applied is not specified but
+currently Dijkstras algorithm is used. The path found is returned as a
+<code>VecDeque&lt;usize&gt;</code> of nodes. The <code>VecDeque&lt;usize&gt;</code> is an optional type as there
+might not be a path.</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>start</code>  - an <code>usize</code> designating the start node, or row in the adjacency list</li>
+<li><code>target</code> - an <code>usize</code> designating the target node, or row in the adjacency list</li>
+</ul>
+
+<h2 id="returns" class='section-header'><a
+                           href="#returns">Returns</a></h2>
+<p>Either the found path between start and target as a <code>VecDeque</code> of <code>usize</code>:s
+or <code>None</code> if there is no path.</p>
+</div><h4 id='method.breadth_first_search' class='method'><code>fn <a href='#method.breadth_first_search' class='fnname'>breadth_first_search</a>(&amp;self, start: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, target: T) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;&gt;</code></h4>
+<div class='docblock'><p><code>breadth_first_search</code> implements breadth first search from <code>start</code> to the
+<code>target</code> and returns the path found as a <code>VecDeque&lt;usize&gt;</code> of nodes. This
+is an optional type as there might not be a path.</p>
+
+<p><strong>NOTE</strong> as this is breadth first search this search ignores any assigned
+weight to nodes.</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>start</code>  - an <code>usize</code> designating the start node, or row in the adjacency list</li>
+<li><code>target</code> - an <code>T</code> designating the target node</li>
+</ul>
+
+<h2 id="returns" class='section-header'><a
+                           href="#returns">Returns</a></h2>
+<p>Either the found path between start and target as a <code>VecDeque</code> of <code>usize</code>:s
+or <code>None</code> if there is no path.</p>
+</div><h4 id='method.breadth_first_search_using_index' class='method'><code>fn <a href='#method.breadth_first_search_using_index' class='fnname'>breadth_first_search_using_index</a>(&amp;self, start: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, target: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;&gt;</code></h4>
+<div class='docblock'><p><code>breadth_first_search</code> implements breadth first search from the <code>start</code> index to the
+<code>target</code> and returns the path found as a <code>VecDeque&lt;usize&gt;</code> of nodes. This
+is an optional type as there might not be a path.</p>
+
+<p><strong>NOTE</strong> as this is breadth first search this search ignores any assigned
+weight to nodes.</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>start</code>  - an <code>usize</code> designating the start node, or row in the adjacency list</li>
+<li><code>target</code> - an <code>usize</code> designating the target node, or row in the adjacency list</li>
+</ul>
+
+<h2 id="returns" class='section-header'><a
+                           href="#returns">Returns</a></h2>
+<p>Either the found path between start and target as a <code>VecDeque</code> of <code>usize</code>:s
+or <code>None</code> if there is no path.</p>
+</div><h4 id='method.depth_first_search' class='method'><code>fn <a href='#method.depth_first_search' class='fnname'>depth_first_search</a>(&amp;self, start: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, target: T) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;&gt;</code></h4>
+<div class='docblock'><p><code>depth_first_search</code> implements depth first search from <code>start</code> to the
+<code>target</code> and returns the path found as a <code>VecDeque&lt;usize&gt;</code> of nodes. This
+is an optional type as there might not be a path.</p>
+
+<p><strong>Note:</strong> as this is depth first search this search ignores any assigned
+weight to nodes.</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>start</code>  - an <code>usize</code> designating the start node, or row in the adjacency list</li>
+<li><code>target</code> - an <code>T</code> designating the target node</li>
+</ul>
+
+<h2 id="returns" class='section-header'><a
+                           href="#returns">Returns</a></h2>
+<p>Either the found path between start and target as a <code>VecDeque</code> of <code>usize</code>:s
+or <code>None</code> if there is no path.</p>
+</div><h4 id='method.depth_first_search_using_index' class='method'><code>fn <a href='#method.depth_first_search_using_index' class='fnname'>depth_first_search_using_index</a>(&amp;self, start: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, target: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;&gt;</code></h4>
+<div class='docblock'><p><code>depth_first_search_using_index</code> implements depth first search from the <code>start</code>
+index to the <code>target</code> index and returns the path found as a <code>VecDeque&lt;usize&gt;</code>
+of nodes. This is an optional type as there might not be a path.</p>
+
+<p><strong>Note:</strong> as this is depth first search this search ignores any assigned
+weight to nodes.</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>start</code>  - an <code>usize</code> designating the start node, or row in the adjacency list</li>
+<li><code>target</code> - an <code>usize</code> designating the target node, or row in the adjacency list</li>
+</ul>
+
+<h2 id="returns" class='section-header'><a
+                           href="#returns">Returns</a></h2>
+<p>Either the found path between start and target as a <code>VecDeque</code> of <code>usize</code>:s
+or <code>None</code> if there is no path.</p>
+</div><h4 id='method.dijkstra' class='method'><code>fn <a href='#method.dijkstra' class='fnname'>dijkstra</a>(&amp;self, start: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, target: &amp;T) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;&gt;</code></h4>
+<div class='docblock'><p><code>dijkstra</code> implements Dijkstras algorithm for search from <code>start</code> to the
+<code>target</code> and returns the path found as a <code>VecDeque&lt;usize&gt;</code> of nodes. This
+is an optional type as there might not be a path.</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>start</code>  - an <code>usize</code> designating the start node, or row in the adjacency list</li>
+<li><code>target</code> - an ref <code>T</code> designating the target node</li>
+</ul>
+
+<h2 id="returns" class='section-header'><a
+                           href="#returns">Returns</a></h2>
+<p>Either the found path between start and target as a <code>VecDeque</code> of <code>usize</code>:s
+or <code>None</code> if there is no path.</p>
+</div><h4 id='method.dijkstra_using_index' class='method'><code>fn <a href='#method.dijkstra_using_index' class='fnname'>dijkstra_using_index</a>(&amp;self, start: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, target: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;&gt;</code></h4>
+<div class='docblock'><p><code>dijkstra_using_index</code> implements Dijkstras algorithm for search from the <code>start</code>
+index to the <code>target</code> index and returns the path found as a <code>VecDeque&lt;usize&gt;</code>
+of nodes. This is an optional type as there might not be a path.</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>start</code>  - an <code>usize</code> designating the start node, or row in the adjacency list</li>
+<li><code>target</code> - an <code>usize</code> designating the target node, or row in the adjacency list</li>
+</ul>
+
+<h2 id="returns" class='section-header'><a
+                           href="#returns">Returns</a></h2>
+<p>Either the found path between start and target as a <code>VecDeque</code> of <code>usize</code>:s
+or <code>None</code> if there is no path.</p>
+</div><h4 id='method.cost_of_path' class='method'><code>fn <a href='#method.cost_of_path' class='fnname'>cost_of_path</a>(&amp;self, path: &amp;<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec_deque/struct.VecDeque.html' title='collections::vec_deque::VecDeque'>VecDeque</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code></h4>
+<div class='docblock'><p><code>cost_of_path</code> takes a path returned from any of the search functions and
+calculates the cost of the path.</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>path</code> - a borrowed reference to a <code>VecDeque&lt;usize&gt;</code> representing a path
+       through the graph</li>
+</ul>
+
+<h2 id="returns" class='section-header'><a
+                           href="#returns">Returns</a></h2>
+<p>The cost of traversing said path represented as an <code>i32</code></p>
+</div><h4 id='method.node_to_index' class='method'><code>fn <a href='#method.node_to_index' class='fnname'>node_to_index</a>(&amp;self, node: <a class='struct' href='../graphsearch/struct.Node.html' title='graphsearch::Node'>Node</a>&lt;T&gt;) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>&gt;</code></h4>
+<div class='docblock'><p><code>node_to_index</code> takes an <code>Node</code> (from the graph) and returns its index, if
+it exists in the graph.</p>
+
+<p><strong>Note:</strong> This operation searches the graph array for the input node and is
+          thus an (ammortized) <strong>O(N)</strong> computation.</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>node</code> - The node for which we want an index</li>
+</ul>
+
+<h2 id="returns" class='section-header'><a
+                           href="#returns">Returns</a></h2>
+<p>An Optional index, either <code>None</code> if the node does not exist in the graph or
+<code>Some(index)</code></p>
+</div><h4 id='method.index_to_node' class='method'><code>fn <a href='#method.index_to_node' class='fnname'>index_to_node</a>(&amp;self, index: <a href='http://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>) -&gt; <a class='enum' href='http://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;&amp;<a class='struct' href='../graphsearch/struct.Node.html' title='graphsearch::Node'>Node</a>&lt;T&gt;&gt;</code></h4>
+<div class='docblock'><p><code>index_to_node</code> takes an index (from the graph) and returns the node at the
+index, if the index is within the bounds of the graph. This is equivalent to
+accessing the underlying vector and thus is of <strong>O(1)</strong> complexity</p>
+
+<h2 id="arguments" class='section-header'><a
+                           href="#arguments">Arguments</a></h2>
+<ul>
+<li><code>index</code> - The <code>usize</code> index for which we want to know the corresponding <code>Node</code></li>
+</ul>
+
+<h2 id="returns" class='section-header'><a
+                           href="#returns">Returns</a></h2>
+<p>An Optional <code>Node</code> if the index supplied is within the bounds of the graph,
+<code>None</code> otherwise</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <div id="help" class="hidden">
+        <div class="shortcuts">
+            <h1>Keyboard shortcuts</h1>
+            <dl>
+                <dt>?</dt>
+                <dd>Show this help dialog</dd>
+                <dt>S</dt>
+                <dd>Focus the search field</dd>
+                <dt>&larrb;</dt>
+                <dd>Move up in search results</dd>
+                <dt>&rarrb;</dt>
+                <dd>Move down in search results</dd>
+                <dt>&#9166;</dt>
+                <dd>Go to active search result</dd>
+            </dl>
+        </div>
+        <div class="infos">
+            <h1>Search tricks</h1>
+            <p>
+                Prefix searches with a type followed by a colon (e.g.
+                <code>fn:</code>) to restrict the search to a given type.
+            </p>
+            <p>
+                Accepted types are: <code>fn</code>, <code>mod</code>,
+                <code>struct</code>, <code>enum</code>,
+                <code>trait</code>, <code>typedef</code> (or
+                <code>tdef</code>).
+            </p>
+            <p>
+                Search functions by type signature (e.g.
+                <code>vec -> usize</code>)
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "graphsearch";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    
+    <script async src="../search-index.js"></script>
+</body>
+</html>
