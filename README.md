@@ -14,7 +14,7 @@ moment featureset is quite limited.
  - Graphs with vertex costs
  - Breadth first search
  - Depth first search
- - Dijksras algorithm
+ - Dijkstra's algorithm
 
 ## Usage example
 
@@ -25,12 +25,12 @@ extern crate graphsearch;
 use graphsearch::{Graph, Node, Vertex};
 fn main() {
   let testgraph = vec![Node{content: "Helsinki",
-                            adjecent: vec![Vertex{cost: 20, node: 1},
+                            adjacent: vec![Vertex{cost: 20, node: 1},
                                            Vertex{cost: 50, node: 2}]},
                        Node{content: "Turku",
-                            adjecent: vec![Vertex{cost: 30, node:2}]},
+                            adjacent: vec![Vertex{cost: 30, node:2}]},
                        Node{content: "Tampere",
-                            adjecent: Vec::new()}];
+                            adjacent: Vec::new()}];
   let start: usize = 0;
   let target = "Tampere";
   let g = Graph::new(testgraph);

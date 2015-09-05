@@ -5,12 +5,12 @@
 //! ```
 //! use graphsearch::{Graph, Node, Vertex};
 //! let rawgraph = vec![Node{content: "Helsinki",
-//!                          adjecent: vec![Vertex{cost: 20, node: 1},
+//!                          adjacent: vec![Vertex{cost: 20, node: 1},
 //!                                         Vertex{cost: 50, node: 2}]},
 //!                     Node{content: "Turku",
-//!                          adjecent: vec![Vertex{cost: 30, node: 2}]},
+//!                          adjacent: vec![Vertex{cost: 30, node: 2}]},
 //!                     Node{content: "Tampere",
-//!                          adjecent: Vec::new()}];
+//!                          adjacent: Vec::new()}];
 //! let g = Graph::new(rawgraph);
 //! let start  = 0;
 //! let target = "Tampere";
@@ -38,8 +38,8 @@ use std::cmp::Ordering;
 pub struct Node<T> {
   /// content can be any type `T`
   pub content: T,
-  /// adjecent takes a `Vec` of vertices to adjecent nodes
-  pub adjecent: Vec<Vertex>,
+  /// adjacent takes a `Vec` of vertices to adjacent nodes
+  pub adjacent: Vec<Vertex>,
 }
 
 /// A vertex between two `Node`s with an associated `i32` cost and a target node.
@@ -72,20 +72,20 @@ impl PartialOrd for Vertex {
 
 
 /// A graph, represeted by as a weighted
-/// [Adjenceny list](http://en.wikipedia.org/wiki/Adjacency_list) of `Node`s
+/// [Adjacency list](http://en.wikipedia.org/wiki/Adjacency_list) of `Node`s
 pub struct Graph<T> {
   /// The underlaying graph represented here with weights as an i32 (should
   /// probably be generic) the graph is represented as an
-  /// [Adjenceny list](http://en.wikipedia.org/wiki/Adjacency_list) of
-  /// Nodes. Nodes themselves are made up of a type T content and a list of adjecent
+  /// [Adjacency list](http://en.wikipedia.org/wiki/Adjacency_list) of
+  /// Nodes. Nodes themselves are made up of a type T content and a list of adjacent
   /// Vertices
   graph: Vec<Node<T>>
 }
 impl <T: PartialEq> Graph<T> {
-  /// `new` allows for initializing the graph struct with a given adjecency list
+  /// `new` allows for initializing the graph struct with a given adjacency list
   ///
   /// ## Arguments
-  /// * `input` - an adjecency list in made out of a `Vec` of Nodes.
+  /// * `input` - an adjacency list in made out of a `Vec` of Nodes.
   ///    Weights are represented as `i32`:s and can thus be positive or
   ///    negative numbers.
   ///
@@ -93,22 +93,22 @@ impl <T: PartialEq> Graph<T> {
   /// ```
   /// use graphsearch::{Graph, Node, Vertex};
   /// let rawgraph = vec![Node{content: "Helsinki",
-  ///                          adjecent: vec![Vertex{cost: 20, node: 1},
+  ///                          adjacent: vec![Vertex{cost: 20, node: 1},
   ///                                         Vertex{cost: 50, node: 2},
   ///                                         Vertex{cost: 10, node: 3}]},
   ///                     Node{content: "Turku",
-  ///                          adjecent: Vec::new()},
+  ///                          adjacent: Vec::new()},
   ///                     Node{content: "Tampere",
-  ///                          adjecent: vec![Vertex{cost: 50, node: 6}]},
+  ///                          adjacent: vec![Vertex{cost: 50, node: 6}]},
   ///                     Node{content: "Jyväskylä",
-  ///                          adjecent: vec![Vertex{cost: 20, node: 4}]},
+  ///                          adjacent: vec![Vertex{cost: 20, node: 4}]},
   ///                     Node{content: "Oulu",
-  ///                          adjecent: vec![Vertex{cost: 20, node: 3},
+  ///                          adjacent: vec![Vertex{cost: 20, node: 3},
   ///                                         Vertex{cost: 30, node: 6}]},
   ///                     Node{content: "Rovaniemi",
-  ///                          adjecent: Vec::new()},
+  ///                          adjacent: Vec::new()},
   ///                     Node{content: "Vasa",
-  ///                          adjecent: Vec::new()}];
+  ///                          adjacent: Vec::new()}];
   /// let g = Graph::new(rawgraph);
   /// ```
   pub fn new(input: Vec<Node<T>>) -> Graph<T> {
@@ -122,7 +122,7 @@ impl <T: PartialEq> Graph<T> {
   /// `VecDeque<usize>` is an optional type as there might not be a path.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
+  /// * `start`  - an `usize` designating the start node, or row in the adjacency list
   /// * `target` - an `T` designating the target node
   ///
   /// ## Returns
@@ -140,8 +140,8 @@ impl <T: PartialEq> Graph<T> {
   /// might not be a path.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
-  /// * `target` - an `usize` designating the target node, or row in the adjecency list
+  /// * `start`  - an `usize` designating the start node, or row in the adjacency list
+  /// * `target` - an `usize` designating the target node, or row in the adjacency list
   ///
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
@@ -158,7 +158,7 @@ impl <T: PartialEq> Graph<T> {
   /// weight to nodes.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
+  /// * `start`  - an `usize` designating the start node, or row in the adjacency list
   /// * `target` - an `T` designating the target node
   ///
   /// ## Returns
@@ -176,8 +176,8 @@ impl <T: PartialEq> Graph<T> {
   /// weight to nodes.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
-  /// * `target` - an `usize` designating the target node, or row in the adjecency list
+  /// * `start`  - an `usize` designating the start node, or row in the adjacency list
+  /// * `target` - an `usize` designating the target node, or row in the adjacency list
   ///
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
@@ -194,7 +194,7 @@ impl <T: PartialEq> Graph<T> {
   /// weight to nodes.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
+  /// * `start`  - an `usize` designating the start node, or row in the adjacency list
   /// * `target` - an `T` designating the target node
   ///
   /// ## Returns
@@ -212,8 +212,8 @@ impl <T: PartialEq> Graph<T> {
   /// weight to nodes.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
-  /// * `target` - an `usize` designating the target node, or row in the adjecency list
+  /// * `start`  - an `usize` designating the start node, or row in the adjacency list
+  /// * `target` - an `usize` designating the target node, or row in the adjacency list
   ///
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
@@ -227,7 +227,7 @@ impl <T: PartialEq> Graph<T> {
   /// is an optional type as there might not be a path.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
+  /// * `start`  - an `usize` designating the start node, or row in the adjacency list
   /// * `target` - an ref `T` designating the target node
   ///
   /// ## Returns
@@ -253,7 +253,7 @@ impl <T: PartialEq> Graph<T> {
             target_index = node
           }
           if cost > costs[node] { continue; } // we have a better path
-          for vert in &self.graph[node].adjecent {
+          for vert in &self.graph[node].adjacent {
             let next = Vertex { cost: cost+vert.cost, node: vert.node };
             if next.cost < costs[vert.node] {
               costs[vert.node] = next.cost;
@@ -273,8 +273,8 @@ impl <T: PartialEq> Graph<T> {
   /// of nodes. This is an optional type as there might not be a path.
   ///
   /// ## Arguments
-  /// * `start`  - an `usize` designating the start node, or row in the adjecency list
-  /// * `target` - an `usize` designating the target node, or row in the adjecency list
+  /// * `start`  - an `usize` designating the start node, or row in the adjacency list
+  /// * `target` - an `usize` designating the target node, or row in the adjacency list
   ///
   /// ## Returns
   /// Either the found path between start and target as a `VecDeque` of `usize`:s
@@ -297,7 +297,7 @@ impl <T: PartialEq> Graph<T> {
   pub fn cost_of_path(&self, path: &VecDeque<usize>) -> i32 {
     let mut cost = 0;
     for i in (0..path.len()-1) {
-      for vert in &self.graph[path[i]].adjecent {
+      for vert in &self.graph[path[i]].adjacent {
         if vert.node==path[i+1] { cost = cost + vert.cost; }
       }
     }
@@ -364,7 +364,7 @@ impl <T: PartialEq> Graph<T> {
             pathfound = true;
             target_index=v;
           }
-          for vertex in &node.adjecent {
+          for vertex in &node.adjacent {
             if !discovered.contains(&vertex.node) {
               q.push_back(vertex.node);
               prev[vertex.node]=v; //track prev (v) on i
@@ -406,13 +406,13 @@ impl <T: PartialEq> Graph<T> {
 
 #[test]
 fn search_test() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 6;
   let expected_path = vec![0, 3, 4, 6];
@@ -437,13 +437,13 @@ fn search_test() {
 
 #[test]
 fn search_test_no_valid_path() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 5; // There is no valid path between 0 and 5
   let g = Graph::new(testgraph);
@@ -467,13 +467,13 @@ fn search_test_no_valid_path() {
 
 #[test]
 fn search_using_index_test() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 6;
   let expected_path = vec![0, 3, 4, 6];
@@ -498,13 +498,13 @@ fn search_using_index_test() {
 
 #[test]
 fn search_using_index_test_no_valid_path() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 5; // There is no valid path between 0 and 5
   let g = Graph::new(testgraph);
@@ -530,13 +530,13 @@ fn search_using_index_test_no_valid_path() {
 
 #[test]
 fn breadth_first_search_test() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 6;
   let expected_path = vec![0, 2, 6];
@@ -561,13 +561,13 @@ fn breadth_first_search_test() {
 
 #[test]
 fn breadth_first_search_test_no_valid_path() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 5; // There is no valid path between 0 and 5
   let g = Graph::new(testgraph);
@@ -590,13 +590,13 @@ fn breadth_first_search_test_no_valid_path() {
 
 #[test]
 fn breadth_first_search_using_index_test() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 6;
   let expected_path = vec![0, 2, 6];
@@ -621,13 +621,13 @@ fn breadth_first_search_using_index_test() {
 
 #[test]
 fn breadth_first_search_using_index_test_no_valid_path() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 5; // There is no valid path between 0 and 5
   let g = Graph::new(testgraph);
@@ -652,13 +652,13 @@ fn breadth_first_search_using_index_test_no_valid_path() {
 
 #[test]
 fn depth_first_search_test() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 6;
   let expected_path = vec![0, 3, 4, 6];
@@ -683,13 +683,13 @@ fn depth_first_search_test() {
 
 #[test]
 fn depth_first_search_test_no_valid_path() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 5; // There is no valid path between 0 and 5
   let g = Graph::new(testgraph);
@@ -712,13 +712,13 @@ fn depth_first_search_test_no_valid_path() {
 
 #[test]
 fn depth_first_search_using_index_test() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 6;
   let expected_path = vec![0, 3, 4, 6];
@@ -743,13 +743,13 @@ fn depth_first_search_using_index_test() {
 
 #[test]
 fn depth_first_search_using_index_test_no_valid_path() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 5; // There is no valid path between 0 and 5
   let g = Graph::new(testgraph);
@@ -775,13 +775,13 @@ fn depth_first_search_using_index_test_no_valid_path() {
 
 #[test]
 fn dijkstra_test_no_valid_path() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 5; // There is no valid path between 0 and 5
   let g = Graph::new(testgraph);
@@ -804,13 +804,13 @@ fn dijkstra_test_no_valid_path() {
 
 #[test]
 fn dijkstra_using_index_test() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 6;
   let expected_path = vec![0, 3, 4, 6];
@@ -835,13 +835,13 @@ fn dijkstra_using_index_test() {
 
 #[test]
 fn dijkstra_using_index_test_no_valid_path() {
-  let testgraph = vec![Node{content: 0, adjecent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
-                       Node{content: 1, adjecent: Vec::new()},
-                       Node{content: 2, adjecent: vec![Vertex{cost: 50, node: 6}]},
-                       Node{content: 3, adjecent: vec![Vertex{cost: 20, node: 4}]},
-                       Node{content: 4, adjecent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
-                       Node{content: 5, adjecent: Vec::new()},
-                       Node{content: 6, adjecent: Vec::new()}];
+  let testgraph = vec![Node{content: 0, adjacent: vec![Vertex{cost: 20, node: 1}, Vertex{cost: 50, node: 2}, Vertex{cost: 10, node: 3}]},
+                       Node{content: 1, adjacent: Vec::new()},
+                       Node{content: 2, adjacent: vec![Vertex{cost: 50, node: 6}]},
+                       Node{content: 3, adjacent: vec![Vertex{cost: 20, node: 4}]},
+                       Node{content: 4, adjacent: vec![Vertex{cost: 20, node: 3}, Vertex{cost: 50, node: 3}, Vertex{cost: 30, node: 6}]},
+                       Node{content: 5, adjacent: Vec::new()},
+                       Node{content: 6, adjacent: Vec::new()}];
   let start: usize = 0;
   let target: usize = 5; // There is no valid path between 0 and 5
   let g = Graph::new(testgraph);
